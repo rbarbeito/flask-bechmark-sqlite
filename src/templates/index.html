@@ -11,7 +11,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="../static/style.css">
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
 </head>
 
 <body>
@@ -21,57 +22,61 @@
     </div>
 
     <main class="w-full min-h-screen bg-blue-200 flex flex-col justify-center items-center ">
+
         <h1 class="text-4xl font-bold mb-10">Comprobador Benchmark</h1>
 
-        <div class="flex ">
-            <form>
-                <article class="border-2 rounded-md p-5 m-3 w-[30rem] bg-blue-50 flex flex-col relative">
-                    <label class="text-xl font-medium cursor-pointer " for="servicio">Tipo de server</label>
-                    <select class="outline-none px-3 py-2 rounded-md w-full cursor-pointer mt-2 mb-6" type="text"
-                        id="servicio" name="servicio">
-                        <optgroup label="Nginx">
-                            <option value="nginx">Nginx</option>
-                            <option value="nginxphp">Nginx + PHP</option>
-                            <option value="nginxsocket">Nginx + Socket</option>
-                        </optgroup>
-                        <optgroup label="Apache">
-                            <option value="apache">Apache</option>
-                            <option value="apachephp">Apache + PHP</option>
-                            <option value="apachephpfpm">Apache + PHP + FPM</option>
-                        </optgroup>
-                        <optgroup label="NodeJs">
-                            <option value="nodejs">NodeJs</option>
-                        </optgroup>
+		<div class=" flex flex-col justify-center items-center w-[90%] ">
+			<section class="w-[90%] grid place-items-center	">
+				<form>
+					<article class="border-2 rounded-md p-5 m-3 w-[30rem] bg-blue-50 flex flex-col relative">
+						<label class="text-xl font-medium cursor-pointer " for="servicio">Tipo de server</label>
+						<select class="outline-none px-3 py-2 rounded-md w-full cursor-pointer mt-2 mb-6" type="text"
+							id="servicio" name="servicio">
+							<optgroup label="Nginx">
+								<option value="nginx">Nginx</option>
+								<option value="nginxphp">Nginx + PHP</option>
+								<option value="nginxsocket">Nginx + Socket</option>
+							</optgroup>
+							<optgroup label="Apache">
+								<option value="apache">Apache</option>
+								<option value="apachephp">Apache + PHP</option>
+								<option value="apachephpfpm">Apache + PHP + FPM</option>
+							</optgroup>
+							<optgroup label="NodeJs">
+								<option value="nodejs">NodeJs</option>
+							</optgroup>
 
-                    </select>
-                    <label class="text-xl font-medium cursor-pointer " for="url">Url</label>
-                    <input class="outline-none px-3 py-2 rounded-md w-full cursor-pointer mt-2" type="text" id="url"
-                        name="url" required placeholder="http://www.dominio.com/">
-                    <div class="flex justify-evenly mt-6">
-                        <label
-                            class="flex flex-col items-center font-bold rounded-lg py-2 px-4 bg-indigo-700 cursor-pointer text-white"
-                            for="request">Request<input
-                                class="font-medium outline-none rounded-md p-1 w-[50px] text-center text-black mt-2"
-                                type='number' value="500" id="request" name="request" /></label>
-                        <label
-                            class="flex flex-col items-center font-bold rounded-lg py-2 px-4 bg-indigo-700 cursor-pointer text-white"
-                            for="concurrency">Concurrency<input
-                                class="font-medium outline-none rounded-md p-1 w-[50px] text-center text-black mt-2"
-                                type='number' value="10" id="concurrency" name="concurrency" /></label>
-                    </div>
+						</select>
+						<label class="text-xl font-medium cursor-pointer " for="url">Url</label>
+						<input class="outline-none px-3 py-2 rounded-md w-full cursor-pointer mt-2" type="text" id="url" name="url" required
+							placeholder="http://www.dominio.com/">
+						<div class="flex justify-evenly mt-6">
+							<label class="flex flex-col items-center font-bold rounded-lg py-2 px-4 bg-indigo-700 cursor-pointer text-white"
+								for="request">Request<input class="font-medium outline-none rounded-md p-1 w-[50px] text-center text-black mt-2"
+									type='number' value="500" id="request" name="request" /></label>
+							<label class="flex flex-col items-center font-bold rounded-lg py-2 px-4 bg-indigo-700 cursor-pointer text-white"
+								for="concurrency">Concurrency<input
+                                    class="font-medium outline-none rounded-md p-1 w-[50px] text-center text-black mt-2" type='number'
+                                    value="10" id="concurrency" name="concurrency" /></label>
+                        </div>
 
-                    <button
-                        class="rounded-md bg-blue-400 w-[fit-content] px-3 py-1 mt-5 relative left-[50%] -translate-x-[50%]"
-                        id="enviar">Ejecutar test</button>
-                </article>
-            </form>
+						<button class="rounded-md bg-blue-400 w-[fit-content] px-3 py-1 mt-5 relative left-[50%] -translate-x-[50%]"
+							id="enviar">Ejecutar test</button>
+						</article>
+						</form>
+			</section>
+			
+			<div class="w-[90%]   grid place-items-center ">
+				<a class="no-underline px-[16px] py-[4px] bg-blue-400 rounded-md text-white text-center" href="graphics">Ver
+					graficos</a>
+				</di>
         </div>
 
     </main>
 
     <script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js' )}}"></script>
+	<script src="{{ url_for('static', filename='script.js' )}}"></script>
 </body>
 
 </html>

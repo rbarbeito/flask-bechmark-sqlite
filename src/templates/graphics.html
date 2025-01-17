@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+	<section class="w-full h-full flex flex-col justify-center items-center">
+
+		<h1 class="text-3xl font-bold ">
+			Gráficos comparativos
+		</h1>
+		<div class="flex gap-6 my-6">
+			<div class="flex flex-col items-center w-[200px] ">
+				<label for="grafico">Servidor analizado</label>
+				<select class="my-1 w-full" name="grafico" id="grafico">
+					<option value="">Seleccione Servicio</option>
+					<option value="all">Todos</option>
+				</select>
+			</div>
+			<div class="flex flex-col items-center w-[200px] ">
+				<label for="grafico_item">Número de prueba</label>
+				<select class="my-1 w-full" name="grafico_item" id="grafico_item" disabled>
+					<option value="">Seleccione la prueba</option>
+					<option value="all">Todas</option>
+				</select>
+			</div>
+		</div>
+		</div>
+
+		<div class="w-8/12 h-3/4">
+			<canvas id="myChart"></canvas>
+		</div>
+
+	</section>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script type="module" src="{{ url_for('static', filename='graphics.js' )}}"></script>
+</body>
+
+</html>

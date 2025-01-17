@@ -71,7 +71,7 @@ class MyDataBase(metaclass=Singlenton):
                  url string not null   ,
                  solicitudes integer not null,
                  concurrency integer not null
-                );     
+                );
                 ''',
                     '''create table if not exists datos_consulta(
                   id integer primary key,
@@ -189,6 +189,23 @@ class MyDataBase(metaclass=Singlenton):
             msg = "No se guardaron los registros"
             return {"code": code, "msg": msg}
 
+    def get_consultas(self):
+        with sqlite3.connect('registros.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('select * from consultas')
+            rows = cursor.fetchall()
+            cursor.close()
+
+            consultas = [Consulta(*row) for row in rows]
+
+            return [
+                {
+                    'id': consulta.id,
+                    'server': consulta.server,
+                }
+                for consulta in consultas
+            ]
+
     def get_consulta(self, id):
 
         with sqlite3.connect('registros.db') as conn:
@@ -265,3 +282,33 @@ class MyDataBase(metaclass=Singlenton):
                     'tiempo_real': comportamiento.tiempo_real,
                     'id_consulta': comportamiento.id_consulta,
                 } for comportamiento in comportamientos]
+
+    def get_general(self):
+        with sqlite3.connect('registros.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('select * from datos_consulta')
+            rows = cursor.fetchall()
+
+            consultas = [DatosConsulta(*row) for row in rows]
+
+            return [{
+                "id": consulta.id,
+                "software": consulta.software,
+                "length": consulta.length,
+                "concurrency": consulta.concurrency,
+                "time_for_tests": consulta.time_for_tests,
+                "complete_request": consulta.complete_request,
+                "failed_request": consulta.failed_request,
+                "request_per_second": consulta.request_per_second,
+                "time_per_request": consulta.time_per_request,
+                "connect_min": consulta.connect_min,
+                "connect_max": consulta.connect_max,
+                "connect_medium": consulta.connect_medium,
+                "processing_min": consulta.processing_min,
+                "processing_max": consulta.processing_max,
+                "processing_medium": consulta.processing_medium,
+                "waiting_min": consulta.waiting_min,
+                "waiting_max": consulta.waiting_max,
+                "waiting_medium": consulta.waiting_medium,
+                "id_consulta": consulta.id_consulta
+            } for consulta in consultas]
