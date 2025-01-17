@@ -3,6 +3,8 @@ from flask import Flask, request, render_template, jsonify, make_response
 from functions import my_functions as mf
 from functions.db import MyDataBase
 
+from collections import defaultdict
+
 db = MyDataBase()
 
 
@@ -51,18 +53,25 @@ def getData():
 @app.route('/general')
 def general():
     data = db.get_general()
+   
 
-    stadisticas = {}
+    sums = defaultdict(lambda: defaultdict(float))
+    counters = defaultdict(lambda: defaultdict(int))
 
-    services = ''
+    for entry in data:
+        software = entry['software']
+        for key, value in entry.items():
+            if isinstance(value, (int, float)) and key != 'id':
+                sums[software][key] += value
+                counters[software][key] += 1
 
-    # for i in range(len(data)):
-    #   	data[i]['software']
+    averages = {
+        software: {key: sums[software][key] /
+                   counters[software][key] for key in sums[software]}
+        for software in sums
+    }
 
-    #     for key, value in data[i]:
-    #         if data[i]['software']==services:
-
-    return data
+    return averages
 
 
 if __name__ == '__main__':

@@ -191,124 +191,54 @@ class MyDataBase(metaclass=Singlenton):
 
     def get_consultas(self):
         with sqlite3.connect('registros.db') as conn:
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute('select * from consultas')
             rows = cursor.fetchall()
             cursor.close()
 
-            consultas = [Consulta(*row) for row in rows]
-
-            return [
-                {
-                    'id': consulta.id,
-                    'server': consulta.server,
-                }
-                for consulta in consultas
-            ]
+            return [dict(row) for row in rows]
 
     def get_consulta(self, id):
 
         with sqlite3.connect('registros.db') as conn:
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute('select * from consultas where id = ? ', (id,))
             rows = cursor.fetchall()
             cursor.close()
 
-            consultas = [Consulta(*row) for row in rows]
-
-            return [
-                {
-                    'id': consulta.id,
-                    'server': consulta.server,
-                    'fecha': consulta.fecha,
-                    'url': consulta.url,
-                    'solicitudes': consulta.solicitudes,
-                    'concurrency': consulta.concurrency
-                }
-                for consulta in consultas
-            ]
+            return [dict(row) for row in rows]
 
     def get_data_consulta(self, id):
 
         with sqlite3.connect('registros.db') as conn:
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute(
                 'select * from datos_consulta where id_consulta = ? ', [id])
             rows = cursor.fetchall()
             cursor.close()
 
-            detalles = [DatosConsulta(*row) for row in rows]
-
-            return [
-                {
-                    'id': detalle.id,
-                    'software': detalle.software,
-                    'length': detalle.length,
-                    'concurrency': detalle.concurrency,
-                    'time_for_tests': detalle.time_for_tests,
-                    'complete_request': detalle.complete_request,
-                    'failed_request': detalle.failed_request,
-                    'request_per_second': detalle.request_per_second,
-                    'time_per_request': detalle.time_per_request,
-                    'connect_min': detalle.connect_min,
-                    'connect_max': detalle.connect_max,
-                    'connect_medium': detalle.connect_medium,
-                    'processing_min': detalle.processing_min,
-                    'processing_max': detalle.processing_max,
-                    'processing_medium': detalle.processing_medium,
-                    'waiting_min': detalle.waiting_min,
-                    'waiting_max': detalle.waiting_max,
-                    'waiting_medium': detalle.waiting_medium,
-                    'id_consulta': detalle.id_consulta
-                } for detalle in detalles
-            ]
+            return [dict(row) for row in rows]
 
     def get_comportamiento_consulta(self, id):
 
         with sqlite3.connect('registros.db') as conn:
-
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute(
                 'select * from comportamiento where id_consulta = ? ', [id])
             rows = cursor.fetchall()
             cursor.close()
 
-            comportamientos = [Comportamiento(*row) for row in rows]
-
-            return [
-                {
-                    'id': comportamiento.id,
-                    'porcentaje': comportamiento.porcentaje,
-                    'tiempo_real': comportamiento.tiempo_real,
-                    'id_consulta': comportamiento.id_consulta,
-                } for comportamiento in comportamientos]
+            return [dict(row) for row in rows]
 
     def get_general(self):
         with sqlite3.connect('registros.db') as conn:
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute('select * from datos_consulta')
             rows = cursor.fetchall()
 
-            consultas = [DatosConsulta(*row) for row in rows]
-
-            return [{
-                "id": consulta.id,
-                "software": consulta.software,
-                "length": consulta.length,
-                "concurrency": consulta.concurrency,
-                "time_for_tests": consulta.time_for_tests,
-                "complete_request": consulta.complete_request,
-                "failed_request": consulta.failed_request,
-                "request_per_second": consulta.request_per_second,
-                "time_per_request": consulta.time_per_request,
-                "connect_min": consulta.connect_min,
-                "connect_max": consulta.connect_max,
-                "connect_medium": consulta.connect_medium,
-                "processing_min": consulta.processing_min,
-                "processing_max": consulta.processing_max,
-                "processing_medium": consulta.processing_medium,
-                "waiting_min": consulta.waiting_min,
-                "waiting_max": consulta.waiting_max,
-                "waiting_medium": consulta.waiting_medium,
-                "id_consulta": consulta.id_consulta
-            } for consulta in consultas]
+            return [dict(row) for row in rows]
