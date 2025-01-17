@@ -1,42 +1,20 @@
-const ctx = document.getElementById('myChart');
 const selectGraphic = document.getElementById('grafico');
 const selectGraphicItem = document.getElementById('grafico_item');
+
+const contenedorGraficos = document.getElementById('graficotes');
 
 const url = 'http://127.0.0.1:5000';
 
 let servidores = [];
 let selectServer = '';
 let selectPrueba = '';
-let datasets = [
-	{
-		label: '# of Votes',
-		data: [12, 19, 3, 5, 2, 3],
-		borderWidth: 1,
-	},
-];
-let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-let typeGraphic = 'bar';
-
-const createGraphic = () => {
-	ctx.destroy();
-	new Chart(ctx, {
-		type: typeGraphic,
-		data: {
-			labels: labels,
-			datasets: datasets,
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true,
-				},
-			},
-		},
-	});
-};
 
 selectGraphic.addEventListener('change', async (event) => {
 	const { value } = event.target;
+
+	while (document.getElementById('graficotes').firstChild) {
+		document.getElementById('graficotes').removeChild(document.getElementById('graficotes').firstChild); // Elimina el primer hijo
+	}
 
 	selectServer = value;
 
@@ -81,11 +59,136 @@ const consultaGeneral = async () => {
 	try {
 		const consulta = await fetch(`${url}/general`);
 		const data = await consulta.json();
-		console.log(data);
-		createGraphic();
+		// console.log('data :', data);
+
+		graficoTiempo(data);
+		graficoProcessing(data);
+		graficoWaiting(data);
 	} catch (err) {
 		console.log('err :', err);
-	} finally {
-		console.log('Nuevo gráfico general');
-	}
+	} 
+
+const graficoProcessing = (data) => {
+	const graficoTiempo = document.createElement('canvas');
+	graficoTiempo.setAttribute('id', 'Processing');
+	contenedorGraficos.appendChild(graficoTiempo);
+
+	const myLineChart = new Chart(document.getElementById('Processing'), {
+		type: 'bar',
+		data: {
+			labels: [],
+			datasets: [],
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+				},
+			},
+		},
+	});
+
+	myLineChart.data.labels = Object.keys(data);
+	myLineChart.data.datasets = [
+		{
+			label: 'Tiempo Max. Procesamiento',
+			data: Object.values(data).map((el) => el.processing_max),
+			borderWidth: 1,
+		},
+		{
+			label: 'Tiempo Media Procesamiento',
+			data: Object.values(data).map((el) => el.processing_medium),
+			borderWidth: 1,
+		},
+		{
+			label: 'Tiempo Min Procesamiento',
+			data: Object.values(data).map((el) => el.processing_min),
+			borderWidth: 1,
+		},
+	];
+
+	myLineChart.update();
+};
+
+const graficoWaiting = (data) => {
+	const graficoWaiting = document.createElement('canvas');
+	graficoWaiting.setAttribute('id', 'graficoWaiting');
+	contenedorGraficos.appendChild(graficoWaiting);
+
+	const myLineChart = new Chart(document.getElementById('graficoWaiting'), {
+		type: 'bar',
+		data: {
+			labels: [],
+			datasets: [],
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+				},
+			},
+		},
+	});
+
+	myLineChart.data.labels = Object.keys(data);
+	myLineChart.data.datasets = [
+		{
+			label: 'Tiempo Max. Espera',
+			data: Object.values(data).map((el) => el.waiting_max),
+			borderWidth: 1,
+		},
+		{
+			label: 'Tiempo Media Espera',
+			data: Object.values(data).map((el) => el.waiting_medium),
+			borderWidth: 1,
+		},
+		{
+			label: 'Tiempo Min Espera',
+			data: Object.values(data).map((el) => el.waiting_min),
+			borderWidth: 1,
+		},
+	];
+
+	myLineChart.update();
+};
+const graficoTiempo = (data) => {
+	const graficoTiempo = document.createElement('canvas');
+	graficoTiempo.setAttribute('id', 'graficoTiempo');
+	contenedorGraficos.appendChild(graficoTiempo);
+
+	const myLineChart = new Chart(document.getElementById('graficoTiempo'), {
+		type: 'bar',
+		data: {
+			labels: [],
+			datasets: [],
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+				},
+			},
+		},
+	});
+
+	myLineChart.data.labels = Object.keys(data);
+	myLineChart.data.datasets = [
+		{
+			label: 'Tiempo Max. Conexión',
+			data: Object.values(data).map((el) => el.connect_max),
+			borderWidth: 1,
+		},
+		{
+			label: 'Tiempo Media Conexión',
+			data: Object.values(data).map((el) => el.connect_medium),
+			borderWidth: 1,
+		},
+		{
+			label: 'Tiempo Min Conexión',
+			data: Object.values(data).map((el) => el.connect_min),
+			borderWidth: 1,
+		},
+	];
+
+	myLineChart.update();
 };
