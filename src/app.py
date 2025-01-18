@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, jsonify, make_response, redirect, url_for
-import requests
 
 from functions import my_functions as mf
 from functions.db import MyDataBase
@@ -26,7 +25,7 @@ def graphics():
 @app.route('/bechmark', methods=['GET', 'POST'])
 def bechmark():
 
-    if requests.methods == 'GET':
+    if request.method == 'GET':
         return render_template('index.html')
     else:
         data = request.get_json()
