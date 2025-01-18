@@ -9,6 +9,8 @@ let servidores = [];
 let selectServer = '';
 let selectPrueba = '';
 
+
+// Comportamiento de selectores
 selectGraphic.addEventListener('change', async (event) => {
 	const { value } = event.target;
 
@@ -37,9 +39,10 @@ selectGraphic.addEventListener('change', async (event) => {
 selectGraphicItem.addEventListener('change', (event) => {
 	const { value } = event.target;
 	selectPrueba = value;
+	console.log('selectPrueba :', selectPrueba);
 
-	if (selectPrueba == '') {
-	}
+
+	if (selectPrueba == '') return 
 });
 
 window.addEventListener('load', async () => {
@@ -55,11 +58,22 @@ window.addEventListener('load', async () => {
 	}
 });
 
+// Gráficos comparativos por servicio
+
+
+
+
+
+
+
+
+
+
+// Graficos de comparación general
 const consultaGeneral = async () => {
 	try {
 		const consulta = await fetch(`${url}/general`);
 		const data = await consulta.json();
-		// console.log('data :', data);
 
 		graficoTiempo(data);
 		graficoProcessing(data);
@@ -71,7 +85,7 @@ const consultaGeneral = async () => {
 
 const graficoProcessing = (data) => {
 	const divContainer = document.createElement('div');
-	divContainer.classList.add('w-full');
+	divContainer.classList.add('w-full', 'md:h-[300px]', 'grid', 'place-items-center');
 	contenedorGraficos.appendChild(divContainer);
 
 	const graficoTiempo = document.createElement('canvas');
@@ -89,6 +103,7 @@ const graficoProcessing = (data) => {
 		},
 	});
 
+	myLineChart.options.responsive = true;
 	myLineChart.options.plugins.title = {
 		text: 'Tiempo que el servidor ha necesitado, procese una respuesta',
 		display: true,
@@ -112,13 +127,14 @@ const graficoProcessing = (data) => {
 			borderWidth: 1,
 		},
 	];
+	myLineChart.options.onResize = () => myLineChart.update();
 
 	myLineChart.update();
 };
 
 const graficoWaiting = (data) => {
 	const divContainer = document.createElement('div');
-	divContainer.classList.add('w-full');
+	divContainer.classList.add('w-full', 'md:h-[300px]', 'grid', 'place-items-center');
 	contenedorGraficos.appendChild(divContainer);
 
 	const graficoWaiting = document.createElement('canvas');
@@ -136,6 +152,7 @@ const graficoWaiting = (data) => {
 		},
 	});
 
+	myLineChart.options.responsive = true;
 	myLineChart.options.plugins.title = {
 		text: 'Tiempo en obtener los primeros bits de respuesta',
 		display: true,
@@ -165,7 +182,7 @@ const graficoWaiting = (data) => {
 
 const graficoTiempo = (data) => {
 	const divContainer = document.createElement('div');
-	divContainer.classList.add('w-full');
+	divContainer.classList.add('w-full', 'md:h-[300px]', 'grid', 'place-items-center');
 	contenedorGraficos.appendChild(divContainer);
 
 	const graficoTiempo = document.createElement('canvas');
@@ -188,6 +205,8 @@ const graficoTiempo = (data) => {
 		display: true,
 		position: 'bottom',
 	};
+	myLineChart.options.responsive=true
+
 	myLineChart.data.labels = Object.keys(data);
 	myLineChart.data.datasets = [
 		{
