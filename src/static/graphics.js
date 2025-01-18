@@ -66,7 +66,8 @@ const consultaGeneral = async () => {
 		graficoWaiting(data);
 	} catch (err) {
 		console.log('err :', err);
-	} 
+	}
+}
 
 const graficoProcessing = (data) => {
 	const graficoTiempo = document.createElement('canvas');
