@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, make_response
+from flask import Flask, request, render_template, jsonify, make_response, redirect, url_for
 
 from functions import my_functions as mf
 from functions.db import MyDataBase
@@ -12,28 +12,35 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/bechmark', methods=['POST'])
-def bechmark():
-    data = request.get_json()
-
-    bechmark = mf.bechmark_action(servidor=data['servicio'],
-                                  endpoint=data['url'],
-                                  n=data['request'],
-                                  c=data['concurrency'],)
-
-    if bechmark["code"] != 'success':
-        return make_response(jsonify(bechmark), 500)
-
-    return make_response(jsonify(bechmark), 201)
+def graphics():
+    return render_template('graphics.html')
 
 
 @app.route('/graphics')
 def graphics():
-    return render_template('graphics.html')
+    return redirect(url_for('graphics'), 302)
+
+
+@app.route('/bechmark', methods=['GET'])
+def index():
+
+
+@app.route('/bechmark', methods=['GET', 'POST'])
+def bechmark():
+
+    if methods == 'GET':
+        return render_template('index.html')
+    else:
+        data = request.get_json()
+        bechmark = mf.bechmark_action(servidor=data['servicio'],
+                                      endpoint=data['url'],
+                                      n=data['request'],
+                                      c=data['concurrency'],)
+
+        if bechmark["code"] != 'success':
+            return make_response(jsonify(bechmark), 500)
+
+        return make_response(jsonify(bechmark), 201)
 
 
 @app.route('/data')
@@ -53,7 +60,6 @@ def getData():
 @app.route('/general')
 def general():
     data = db.get_general()
-   
 
     sums = defaultdict(lambda: defaultdict(float))
     counters = defaultdict(lambda: defaultdict(int))
@@ -72,6 +78,12 @@ def general():
     }
 
     return averages
+
+
+@app.route('/generalbyservices/<servidor>')
+def generalbyservices(servidor):
+    data = db.get_generalbyservices(servidor)
+    return make_response(jsonify(data), 200)
 
 
 if __name__ == '__main__':
