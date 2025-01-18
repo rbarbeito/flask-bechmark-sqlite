@@ -9,7 +9,6 @@ let servidores = [];
 let selectServer = '';
 let selectPrueba = '';
 
-
 // Comportamiento de selectores
 selectGraphic.addEventListener('change', async (event) => {
 	const { value } = event.target;
@@ -19,7 +18,7 @@ selectGraphic.addEventListener('change', async (event) => {
 	}
 
 	selectServer = value;
-
+ 	
 	if (selectServer == '') return;
 
 	if (selectServer == 'all') return consultaGeneral();
@@ -34,15 +33,21 @@ selectGraphic.addEventListener('change', async (event) => {
 		optionCreado.setAttribute('value', servidores[value][i]);
 		selectGraphicItem.appendChild(optionCreado);
 	}
+
+	if(selectPrueba!='') consultaGeneral();
 });
 
 selectGraphicItem.addEventListener('change', (event) => {
 	const { value } = event.target;
 	selectPrueba = value;
-	console.log('selectPrueba :', selectPrueba);
 
+	while (document.getElementById('graficotes').firstChild) {
+		document.getElementById('graficotes').removeChild(document.getElementById('graficotes').firstChild); // Elimina el primer hijo
+	}
 
-	if (selectPrueba == '') return 
+	if (selectPrueba == '') return;
+
+	if (selectPrueba == 'all') return consultaGeneral();
 });
 
 window.addEventListener('load', async () => {
@@ -58,21 +63,17 @@ window.addEventListener('load', async () => {
 	}
 });
 
-// Gráficos comparativos por servicio
-
-
-
-
-
-
-
-
-
-
 // Graficos de comparación general
 const consultaGeneral = async () => {
 	try {
-		const consulta = await fetch(`${url}/general`);
+		let endpoint = '';
+
+		if (selectServer=='all' && selectPrueba=='') {
+			endpoint= `${url}/general`
+		} else if (selectServer != 'all' && selectPrueba == 'all') {
+			endpoint = `${url}/generalbyservices/${selectServer}`;
+		}
+		const consulta = await fetch(`${endpoint}`);
 		const data = await consulta.json();
 
 		graficoTiempo(data);
@@ -205,7 +206,7 @@ const graficoTiempo = (data) => {
 		display: true,
 		position: 'bottom',
 	};
-	myLineChart.options.responsive=true
+	myLineChart.options.responsive = true;
 
 	myLineChart.data.labels = Object.keys(data);
 	myLineChart.data.datasets = [

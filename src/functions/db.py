@@ -241,4 +241,16 @@ class MyDataBase(metaclass=Singlenton):
             cursor.execute('select * from datos_consulta')
             rows = cursor.fetchall()
 
-            return [dict(row) for row in rows]
+        return [dict(row) for row in rows]
+
+    def get_generalbyservices(self, servidor):
+        with sqlite3.connect('registros.db') as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute(
+                '''SELECT * FROM datos_consulta 
+                JOIN consultas ON consultas.id =datos_consulta.id_consulta
+                WHERE server = ?''', (servidor,))
+            rows = cursor.fetchall()
+
+        return [dict(row) for row in rows]
