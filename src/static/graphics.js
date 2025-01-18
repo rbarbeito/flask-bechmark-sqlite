@@ -67,19 +67,19 @@ const consultaGeneral = async () => {
 	} catch (err) {
 		console.log('err :', err);
 	}
-}
+};
 
 const graficoProcessing = (data) => {
+	const divContainer = document.createElement('div');
+	divContainer.classList.add('w-full');
+	contenedorGraficos.appendChild(divContainer);
+
 	const graficoTiempo = document.createElement('canvas');
 	graficoTiempo.setAttribute('id', 'Processing');
-	contenedorGraficos.appendChild(graficoTiempo);
+	divContainer.appendChild(graficoTiempo);
 
 	const myLineChart = new Chart(document.getElementById('Processing'), {
 		type: 'bar',
-		data: {
-			labels: [],
-			datasets: [],
-		},
 		options: {
 			scales: {
 				y: {
@@ -89,6 +89,11 @@ const graficoProcessing = (data) => {
 		},
 	});
 
+	myLineChart.options.plugins.title = {
+		text: 'Tiempo que el servidor ha necesitado, procese una respuesta',
+		display: true,
+		position: 'bottom',
+	};
 	myLineChart.data.labels = Object.keys(data);
 	myLineChart.data.datasets = [
 		{
@@ -112,16 +117,16 @@ const graficoProcessing = (data) => {
 };
 
 const graficoWaiting = (data) => {
+	const divContainer = document.createElement('div');
+	divContainer.classList.add('w-full');
+	contenedorGraficos.appendChild(divContainer);
+
 	const graficoWaiting = document.createElement('canvas');
 	graficoWaiting.setAttribute('id', 'graficoWaiting');
-	contenedorGraficos.appendChild(graficoWaiting);
+	divContainer.appendChild(graficoWaiting);
 
 	const myLineChart = new Chart(document.getElementById('graficoWaiting'), {
 		type: 'bar',
-		data: {
-			labels: [],
-			datasets: [],
-		},
 		options: {
 			scales: {
 				y: {
@@ -131,6 +136,11 @@ const graficoWaiting = (data) => {
 		},
 	});
 
+	myLineChart.options.plugins.title = {
+		text: 'Tiempo en obtener los primeros bits de respuesta',
+		display: true,
+		position: 'bottom',
+	};
 	myLineChart.data.labels = Object.keys(data);
 	myLineChart.data.datasets = [
 		{
@@ -152,17 +162,18 @@ const graficoWaiting = (data) => {
 
 	myLineChart.update();
 };
+
 const graficoTiempo = (data) => {
+	const divContainer = document.createElement('div');
+	divContainer.classList.add('w-full');
+	contenedorGraficos.appendChild(divContainer);
+
 	const graficoTiempo = document.createElement('canvas');
 	graficoTiempo.setAttribute('id', 'graficoTiempo');
-	contenedorGraficos.appendChild(graficoTiempo);
+	divContainer.appendChild(graficoTiempo);
 
 	const myLineChart = new Chart(document.getElementById('graficoTiempo'), {
 		type: 'bar',
-		data: {
-			labels: [],
-			datasets: [],
-		},
 		options: {
 			scales: {
 				y: {
@@ -172,6 +183,11 @@ const graficoTiempo = (data) => {
 		},
 	});
 
+	myLineChart.options.plugins.title = {
+		text: 'Tiempo en establecer la conexión (Abrir SocketS)',
+		display: true,
+		position: 'bottom',
+	};
 	myLineChart.data.labels = Object.keys(data);
 	myLineChart.data.datasets = [
 		{
