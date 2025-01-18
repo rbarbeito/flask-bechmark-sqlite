@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benchmark | Inicio</title>
-    <link rel="shortcut icon" href="#" type="image/x-icon">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Benchmark | Inicio</title>
+	<link rel="shortcut icon" href="#" type="image/x-icon">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 	<link rel="stylesheet" href="../static/style.css">
 	<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
@@ -17,18 +17,18 @@
 
 <body>
 
-    <div class="absolute w-screen h-screen flex flex-col justify-center items-center z-10 filtrado loading">
-        <span class="loader"></span>
-    </div>
+	<div class="absolute w-screen h-screen flex flex-col justify-center items-center z-10 filtrado loading">
+		<span class="loader"></span>
+	</div>
 
-    <main class="w-full min-h-screen bg-blue-200 flex flex-col justify-center items-center ">
+	<main class="w-full h-screen bg-blue-200 flex flex-col justify-center items-center ">
 
-        <h1 class="text-4xl font-bold mb-10">Comprobador Benchmark</h1>
+		<h1 class="text-center text-4xl font-bold mb-10">Comprobador Benchmark</h1>
 
-		<div class=" flex flex-col justify-center items-center w-[90%] ">
-			<section class="w-[90%] grid place-items-center	">
-				<form>
-					<article class="border-2 rounded-md p-5 m-3 w-[30rem] bg-blue-50 flex flex-col relative">
+		<div class=" flex flex-col justify-center items-center w-[90%] md:w-[30rem] px-1">
+			<section class="flex  justify-center items-center w-full	">
+				<form class="w-full">
+					<article class="border-2 rounded-md p-5 m-3 w-full bg-blue-50 flex flex-col relative">
 						<label class="text-xl font-medium cursor-pointer " for="servicio">Tipo de server</label>
 						<select class="outline-none px-3 py-2 rounded-md w-full cursor-pointer mt-2 mb-6" type="text"
 							id="servicio" name="servicio">
@@ -56,26 +56,27 @@
 									type='number' value="500" id="request" name="request" /></label>
 							<label class="flex flex-col items-center font-bold rounded-lg py-2 px-4 bg-indigo-700 cursor-pointer text-white"
 								for="concurrency">Concurrency<input
-                                    class="font-medium outline-none rounded-md p-1 w-[50px] text-center text-black mt-2" type='number'
-                                    value="10" id="concurrency" name="concurrency" /></label>
-                        </div>
+									class="font-medium outline-none rounded-md p-1 w-[50px] text-center text-black mt-2"
+									type='number' value="10" id="concurrency" name="concurrency" /></label>
+						</div>
 
-						<button class="rounded-md bg-blue-400 w-[fit-content] px-3 py-1 mt-5 relative left-[50%] -translate-x-[50%]"
-							id="enviar">Ejecutar test</button>
+						<button
+							class=" disabled:bg-gray-500 disabled:cursor-not-allowed rounded-md bg-blue-400 w-[fit-content] px-3 py-1 mt-5 relative left-[50%] -translate-x-[50%]"
+							disabled id="enviar">Ejecutar test</button>
 						</article>
 						</form>
 			</section>
-			
+
 			<div class="w-[90%]   grid place-items-center ">
 				<a class="no-underline px-[16px] py-[4px] bg-green-400 rounded-md text-white text-center" href="graphics">Ver
 					gráficos</a>
-				</div>
-        </div>
+			</div>
+			</div>
 
-    </main>
+	</main>
 
-    <script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 	<script src="{{ url_for('static', filename='script.js' )}}"></script>
 </body>
 
