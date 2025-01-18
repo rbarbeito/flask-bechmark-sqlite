@@ -9,6 +9,8 @@ let servidores = [];
 let selectServer = '';
 let selectPrueba = '';
 
+const ordenes = ['Primera', 'Segunda', 'Tercera'];
+
 // Comportamiento de selectores
 selectGraphic.addEventListener('change', async (event) => {
 	const { value } = event.target;
@@ -18,14 +20,13 @@ selectGraphic.addEventListener('change', async (event) => {
 	}
 
 	selectServer = value;
- 	
+
 	if (selectServer == '') return;
 
 	if (selectServer == 'all') return consultaGeneral();
 
 	selectGraphicItem.removeAttribute('disabled');
 
-	const ordenes = ['Primera', 'Segunda', 'Tercera'];
 	for (let i = 0; i < servidores[value].length; i++) {
 		if (selectGraphicItem.childElementCount > 4) selectGraphicItem.removeChild(selectGraphicItem.children[2]);
 		const optionCreado = document.createElement('option');
@@ -34,7 +35,7 @@ selectGraphic.addEventListener('change', async (event) => {
 		selectGraphicItem.appendChild(optionCreado);
 	}
 
-	if(selectPrueba!='') consultaGeneral();
+	if (selectPrueba != '') consultaGeneral();
 });
 
 selectGraphicItem.addEventListener('change', (event) => {
@@ -68,8 +69,8 @@ const consultaGeneral = async () => {
 	try {
 		let endpoint = '';
 
-		if (selectServer=='all' && selectPrueba=='') {
-			endpoint= `${url}/general`
+		if (selectServer == 'all' && selectPrueba == '') {
+			endpoint = `${url}/general`;
 		} else if (selectServer != 'all' && selectPrueba == 'all') {
 			endpoint = `${url}/generalbyservices/${selectServer}`;
 		}
@@ -130,6 +131,10 @@ const graficoProcessing = (data) => {
 	];
 	myLineChart.options.onResize = () => myLineChart.update();
 
+	if (selectServer != 'all' && selectPrueba == 'all') {
+		myLineChart.data.labels = ordenes;
+	}
+
 	myLineChart.update();
 };
 
@@ -177,7 +182,9 @@ const graficoWaiting = (data) => {
 			borderWidth: 1,
 		},
 	];
-
+	if (selectServer != 'all' && selectPrueba == 'all') {
+		myLineChart.data.labels = ordenes;
+	}
 	myLineChart.update();
 };
 
@@ -227,5 +234,8 @@ const graficoTiempo = (data) => {
 		},
 	];
 
+	if (selectServer != 'all' && selectPrueba == 'all') {
+		myLineChart.data.labels = ordenes;
+	}
 	myLineChart.update();
 };
